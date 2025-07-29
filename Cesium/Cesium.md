@@ -176,7 +176,7 @@ const viewer = new Viewer('cesiumContainer', {
 - 每一个经纬度点的高程都是 **0 米**
 - 这叫做“扁平地球”（Flat Ellipsoid）
 
-![image-20250603203334585](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250603203334585.png)
+![image-20250603203334585](./../typora-pic/image-20250603203334585.png)
 
 
 
@@ -187,7 +187,7 @@ const viewer = new Viewer('cesiumContainer', {
 - 支持**地形阴影和遮挡**
 - 部分地形包含**摄影测量模型（3D Tiles）**
 
-![image-20250603203254679](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250603203254679.png)
+![image-20250603203254679](./../typora-pic/image-20250603203254679.png)
 
 ##### ✅ 结论
 

@@ -39,7 +39,7 @@ axios拦截器中需要关注三个点：
 
 每一个网络请求函数，实际发送请求的代码`request({config})`，这样的代码：
 
-![image-20250717200147596](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250717200147596.png)
+![image-20250717200147596](./../typora-pic/image-20250717200147596.png)
 
 `request`是`axios`封装的请求实例，`request({})`内部的对象，是一个`config`配置对象，这个对象就是**请求拦截器**中的`config`，网络请求发送失败了，实际上是`request({config})`这个失败了。为了后面重新发送，我们肯定需要把每一个类似的请求函数都保存下来。
 

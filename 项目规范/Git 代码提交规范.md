@@ -22,7 +22,7 @@ npx husky init
 
 此时根目录下多出了`husky`文件夹： 
 
-![image-20250417171134999](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417171134999.png)
+![image-20250417171134999](./../typora-pic/image-20250417171134999.png)
 
 `pre-commit` 钩子，可以自动运行各种代码检查工具，在提交代码前强制执行代码质量和样式检查。
 
@@ -41,7 +41,7 @@ git add .
 git commit -m "测试husky的pre-commit钩子"
 ```
 
-![image-20250417152524250](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417152524250.png)
+![image-20250417152524250](./../typora-pic/image-20250417152524250.png)
 
 通过 `pre-commit` 钩子，可以自动运行各种代码检查工具，在提交代码前强制执行代码质量和样式检查。常见的工具包括：
 
@@ -92,9 +92,9 @@ git commit -m "测试不符规范的提交"
 
 代码自动修改为：
 
-![image-20250417175544847](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417175544847.png)
+![image-20250417175544847](./../typora-pic/image-20250417175544847.png)
 
-![image-20250417175552879](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417175552879.png)
+![image-20250417175552879](./../typora-pic/image-20250417175552879.png)
 
 需要注意的是，有些不符合规范的代码，**eslint**不能进行修复，只是会提示＋报错，比如定义的变量未使用，需要我们手动的处理：
 
@@ -103,7 +103,7 @@ const a = 10;
 const number = 10;
 ```
 
-![image-20250417175830644](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417175830644.png)
+![image-20250417175830644](./../typora-pic/image-20250417175830644.png)
 
 ### 二、集成 lint-staged
 
@@ -212,7 +212,7 @@ git commit -m "修改了一点东西"
 
 如果你用了 `commitlint`，它会直接告诉你：
 
-![image-20250417183751067](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417183751067.png)
+![image-20250417183751067](./../typora-pic/image-20250417183751067.png)
 
 这时候就限制了我们只能使用正确的提交格式。
 
@@ -273,7 +273,7 @@ npx --no-install commitlint --edit $1
 
 当你尝试提交不符合规范的提交信息时，提交会被阻止，并显示相关错误提示。如下图所示：
 
-![img](https://i-blog.csdnimg.cn/img_convert/d33e0397af00c012565102fb608c2f17.png)
+![img](./../typora-pic/d33e0397af00c012565102fb608c2f17.png)
 
 既然限制提交信息的规范性，让`git commit -m "xxx"`这种提交失败，那么怎么才能正确的符合规范的提交呢，那就要使用 `Commitizen` 和 `cz-git`
 
@@ -397,13 +397,13 @@ module.exports = {
 
 执行 `npm run commit` 命令后，按照提示输入相关信息，最终生成符合规范的提交信息。
 
-![image-20250417194642803](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417194642803.png)
+![image-20250417194642803](./../typora-pic/image-20250417194642803.png)
 
-![image-20250417194908982](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417194908982.png)
+![image-20250417194908982](./../typora-pic/image-20250417194908982.png)
 
 最终的符合规范的提交信息:
 
-![image-20250417195003337](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250417195003337.png)
+![image-20250417195003337](./../typora-pic/image-20250417195003337.png)
 
 ### 五、执行流程
 

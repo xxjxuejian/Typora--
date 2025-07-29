@@ -8,7 +8,7 @@
 
 修改`input`的背景颜色，内部占位字体的颜色和样式，与前缀图标的间距以及整个`form-item`的高度，
 
-![image-20250423095021020](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250423095021020.png)
+![image-20250423095021020](../../typora-pic/image-20250423095021020.png)
 
 修改思路：
 
@@ -16,9 +16,7 @@
 
 内部用了`span.el-input__prefix` 和 `input.el-input__inner`一起组合出了前缀图标和`input`框。外层还套了一个叫做`el-input__wrapper`的盒子。最外层才是`el-input`组件。
 
-
-
-![image-20250423101100197](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250423101100197.png)
+![image-20250423101100197](../../typora-pic/image-20250423101100197.png)
 
 为什么要了解结构：
 
@@ -47,13 +45,13 @@
 
 **hover:**
 
-![image-20250423113937282](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250423113937282.png)
+![image-20250423113937282](../../typora-pic/image-20250423113937282.png)
 
 **focus:**
 
-![image-20250423131942399](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250423131942399.png)
+![image-20250423131942399](../../typora-pic/image-20250423131942399.png)
 
-![image-20250423131946449](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250423131946449.png)
+![image-20250423131946449](../../typora-pic/image-20250423131946449.png)
 
 所以我们需要对`el-input__wrapper`元素的`hover`和`focus`状态进行修改：
 
@@ -87,7 +85,7 @@ el-input__wrapper:hover {
 
 没有给出中文的菜单名称，渲染以后的菜单如下图：
 
-![image-20250429151512054](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250429151512054.png)
+![image-20250429151512054](../../typora-pic/image-20250429151512054.png)
 
 现在需要把这些菜单变成中文，一个简单的思路就是写一个转化函数，比如
 
@@ -139,7 +137,7 @@ npm install vue-i18n
 
 在`src`目录下创建如下结构的目录：
 
-![image-20250429152706824](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250429152706824.png)
+![image-20250429152706824](../../typora-pic/image-20250429152706824.png)
 
 其中`en.ts`和`zh-cn.ts`是中英文的语言包，对应了系统中的所有的`key`以及`value`
 
@@ -300,7 +298,7 @@ import { translateRouteTitle } from "./utils/i18n";
 <div>{{ $t("sidebar.warningRule") }}</div>
 ```
 
-![image-20250429181736332](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250429181736332.png)
+![image-20250429181736332](../../typora-pic/image-20250429181736332.png)
 
 
 
@@ -547,7 +545,7 @@ app.mount("#app");
 
 实现一个动态加载的选择城市的级联选择器
 
-![image-20250611181946844](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250611181946844.png)
+![image-20250611181946844](./typora-pic/image-20250611181946844.png)
 
 ##### 为什么这个案例适用这种方法？
 

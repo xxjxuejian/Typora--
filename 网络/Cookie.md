@@ -6,7 +6,7 @@ HTTP Cookie（也叫 Web Cookie 或浏览器 Cookie）是`服务器`发送到`�
 
 #### URL结构
 
-![format,webp](https://ucc.alicdn.com/z3pojg2spmpe4/developer-article1631431/20241030/25a86d1ff9c245648a81e99bc7f81f35.png)
+![format,webp](./../typora-pic/25a86d1ff9c245648a81e99bc7f81f35.png)
 
 ###### Protocol（协议）
 
@@ -72,7 +72,7 @@ set-cookie: SELLER@YKD.SESSID=tn1qbfi79ngt53jqfmqtm5c7t9; expires=Sat, 05-Jul-20
 
 默认没有设置`Domain`，默认的 `Domain` 就是：`localhost`
 
-![image-20250704101734744](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250704101734744.png)
+![image-20250704101734744](./../typora-pic/image-20250704101734744.png)
 
 这意味着：
 

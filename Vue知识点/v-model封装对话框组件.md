@@ -10,13 +10,13 @@
 
 点击一个按钮，弹出一个对话框，可以选择图片
 
-![image-20250603182120254](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250603182120254.png)
+![image-20250603182120254](./../typora-pic/image-20250603182120254.png)
 
 
 
 对话框
 
-![image-20250603182138308](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20250603182138308.png)
+![image-20250603182138308](./../typora-pic/image-20250603182138308.png)
 
 从实现上来说，没有什么难度，只是在结合`v-model`一起使用时，怎么通过`v-model`同时控制子组件本身 与 子组件内部的`dialog`，有一些需要注意的地方，所以记录下来，方便以后查阅。
 
