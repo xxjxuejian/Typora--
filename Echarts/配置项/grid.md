@@ -74,6 +74,20 @@ grid: {
 
 
 
-`grid.containLabel`：grid 区域是否包含坐标轴的刻度标签。
+`grid.containLabel`：grid 区域是否包含坐标轴的刻度标签。类似于`box-size`的`border-box`和`content-box`的区别。（暂时我不知道有什么区别）
 
-设置容器样式，设置grid样式，对比，类似于`box-size`的`border-box`和`content-box`的区别。
+
+
+**grid**
+
+![image-20250731094528180](./../../typora-pic/image-20250731094528180.png)
+
+```ts
+grid: {
+    left: '10%',
+    show: true,  // 是否显示直角坐标系网格
+    containLabel: false,
+    backgroundColor: 'rgba(128, 128, 128, 0.5)' // 此配置项生效的前提是，设置了 show: true
+  },
+```
+
