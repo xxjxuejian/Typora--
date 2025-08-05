@@ -1,3 +1,103 @@
+### 背景知识：跨域
+
+浏览器出于安全考虑，**不允许一个网页去请求另一个不同源（协议+域名+端口）的资源**。这就是“跨域”。
+
+比如：
+
+- 你前端页面在：`http://localhost:3000`
+- 你要请求的API在：`http://localhost:8000`
+
+这就是两个不同的源，请求会被浏览器拦截，提示跨域（CORS）错误。
+
+
+
+### 配置代理的目的：
+
+解决本地开发中的跨域问题，并模拟生产环境请求 API 的情况。
+
+本地开发时，执行`npm run dev`以后，
+
+- 前端运行在 `http://localhost:3000`
+- 后端 API 服务运行在 `http://localhost:8000`
+- 前端代码中你希望请求 后端接口`/api/user/list`，但这会跨域
+
+
+
+🚫 没有代理时：
+
+```js
+// axios 请求代码
+axios.get('/api/user/list')
+```
+
+你期望访问的是 `http://localhost:8000/api/user/list`，但实际上浏览器默认会请求当前 `origin：`
+
+```http
+GET http://localhost:3000/api/user/list  ← 这个地址是不存在的
+```
+
+如果你改成：
+
+```js
+axios.get('http://localhost:8000/api/user/list')
+```
+
+则会跨域，被浏览器拦截。
+
+
+
+#### 为什么会这样呢？
+
+这是因为 **浏览器在处理相对路径时遵循默认的 URL 解析规则** —— 相对路径是基于**当前页面的 origin（协议 + 域名 + 端口）**进行解析的。
+
+```js
+axios.get('/api/user/list')
+```
+
+这是一个**相对路径请求**，它**没有指定协议（http/https）、域名、端口**。浏览器就会自动把它补全为：
+
+```js
+[当前页面的 origin] + /api/user/list
+// 即
+http://localhost:3000/api/user/list
+```
+
+对于浏览器来说，`'/api/user/list'`，它**不是一个“完整的 URL”**，因为它没有：
+
+- 协议（http://）
+- 域名（localhost）
+- 端口（3000）
+
+只有这些都有时，浏览器才认为它是“完全的 URL”，比如：
+
+```
+axios.get('http://localhost:8000/api/user/list')  // 完整 URL
+```
+
+`/api/user/list`，是相对于当前域名根目录 `/` 的路径。
+
+在执行`npm run dev`以后，前端是开启了一个开发服务器，开启一个HTTP服务：
+
+默认运行在http://localhost:3000域名下，将项目文件（如 HTML、CSS、JS 等）托管在这个临时环境中，通过浏览器访问http://localhost:3000，加载的就是开发服务器托管的前端页面。
+
+`axios.get('/api/user/list')`针对路径`/api/user/list`，浏览器会认为这是当前域名下的绝对路径，会自动的将当前页面的`origin`（协议 + 域名 + 端口）拼接到路径前，形成完整的 URL
+
+```js
+http://localhost:3000/api/user/list
+```
+
+也就是说，对于这种路径，浏览器默认是当前域名下的路径，因为这样是不会产生跨域的。
+
+但是当前域名下并没有后端的接口服务，所以访问不到，还是需要访问
+
+```js
+http://localhost:8000/api/user/list
+```
+
+但是域名不同，产生了跨域问题，这就需要配置代理解决。
+
+
+
 ### vite.config.js配置
 
 ```js
