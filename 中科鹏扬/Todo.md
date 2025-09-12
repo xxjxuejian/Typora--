@@ -6,7 +6,7 @@ tagsview √
 
 国际化  √
 
-主题切换
+主题切换 √
 
 响应式
 
@@ -16,4 +16,3 @@ TS
 
 token过期失效时，tagsview等数据没有清空的问题 --
 
-youlai uniapp-开源项目
