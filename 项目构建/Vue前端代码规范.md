@@ -29,6 +29,8 @@ VSCode 插件市场搜索 ESLint 插件并安装
 
 ```shell
 npm init @eslint/config@latest
+
+pnpm create @eslint/config@latest
 ```
 
 运行该命令后，ESLint 将通过交互式问答的方式，帮助安装相关依赖并生成默认配置文件 
@@ -62,10 +64,12 @@ export default defineConfig([
 
 #### 定制化配置
 
-于项目使用了 Vue 3 和 TypeScript，我们需要在默认配置的基础上进行调整，以适配当前项目。首先，安装必要的 `ESLint` 依赖：
+由于项目使用了 Vue 3 和 TypeScript，我们需要在默认配置的基础上进行调整，以适配当前项目。首先，安装必要的 `ESLint` 依赖：
 
 ```shell
 npm install -D eslint-plugin-vue vue-eslint-parser eslint-config-prettier eslint-plugin-prettier 
+
+pnpm add -D eslint-plugin-vue vue-eslint-parser eslint-config-prettier eslint-plugin-prettier
 ```
 
 |          依赖          |                 作用                 |
@@ -310,6 +314,8 @@ VSCode 插件市场搜索 `Prettier - Code formatter` 插件安装
 
 ```shell
 npm install -D prettier eslint-config-prettier eslint-plugin-prettier 
+
+pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier 
 ```
 
 - **prettier**：主要的 Prettier 格式化库。
@@ -450,6 +456,8 @@ VSCode 插件搜索 `Stylelint` 并安装
 
 ```shell
 npm install -D postcss postcss-html postcss-scss stylelint stylelint-config-recommended stylelint-config-recommended-scss stylelint-config-recommended-vue stylelint-config-recess-order stylelint-config-html stylelint-prettier
+
+pnpm add -D postcss postcss-html postcss-scss stylelint stylelint-config-recommended stylelint-config-recommended-scss stylelint-config-recommended-vue stylelint-config-recess-order stylelint-config-html stylelint-prettier
 ```
 
 |               依赖                |                             说明                             |                            备注                             |
@@ -543,11 +551,11 @@ stats.html
 
 #### 保存自动修复
 
-在`设置`中搜索`codeActionsOnSave`，进入到`setting.json`中编辑
+项目根目录下`.vscode/settings.json` 文件添加配置：
 
-![image-20250418162037577](./../typora-pic/image-20250418162037577.png)
+![image-20250916112729247](./../typora-pic/image-20250916112729247.png)
 
-添加以下配置：
+
 
 ```json
 {
@@ -557,6 +565,19 @@ stats.html
   "stylelint.validate": ["css", "scss", "vue", "html"]
 }
 ```
+
+`"source.fixAll.stylelint": true` ，`true`值将被启用，所以使用`explicit`![image-20250916113015073](./../typora-pic/image-20250916113015073.png)
+
+添加下面的代码：
+
+```json
+ "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint":"explicit"
+  },
+  "stylelint.validate": ["css", "scss", "vue", "html"]
+```
+
+
 
 #### 测试 Stylelint
 
