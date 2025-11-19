@@ -16,7 +16,7 @@ JS 引擎会从入口模块（比如 `main.js`）开始扫描源码
 
 这里的模块依赖图可能类似这种：
 
-```bash
+```mathematica
 main.js
  ├── ./assets/main.css
  ├── vue
