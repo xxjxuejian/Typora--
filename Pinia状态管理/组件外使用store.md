@@ -272,8 +272,3 @@ import router from './router'
 
 
 
-### import 的静态解析
-
-“静态解析”这个词，在 ES 模块（ESM）里指的是：
- 在代码**运行之前**，JavaScript 引擎会**先通读源码**，把所有 `import` 和 `export` 的依赖关系确定下来，然后按依赖顺序去**加载并执行模块的顶层代码**。
-
