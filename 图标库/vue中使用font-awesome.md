@@ -251,7 +251,7 @@ library.add(faUser, faCoffee, faGithub, faMapMarkedAlt, faMapLocationDot, faMap)
 
 
 
-这种写法，貌似只能在`html`中生效，`vue`文件中不生效
+这种写法，貌似只能在`html`中生效，`vue`文件中不生效，这是因为使用了`vue-fontawesome`库，所以使用方法上有些变化
 
 ```html
 <i class="fas fa-map"></i>
