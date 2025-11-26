@@ -1,0 +1,158 @@
+关于 **Type (类型定义)** 的放置位置，在 TypeScript 项目中确实存在几种不同的流派。
+
+**结论先行**：
+对于现代 Vue 3 + TS 模块化开发，**不建议**将所有类型都一股脑丢进全局的 `types/xx.d.ts` 中。
+
+**最佳实践原则是：** **类型应尽可能靠近它被使用的地方（Co-location）**，只有当类型具有**通用业务属性**（被多个完全不相关的模块共享）时，才放入全局 `types` 目录。
+
+---
+
+### 为什么不建议全放 `types/map.d.ts`？
+
+1.  **显式引用优于隐式全局**：
+    `*.d.ts` 通常用于声明全局类型（不需要 import 就能用的那种）。如果你的 `MapConfig` 放在这里，任何文件都能直接用。这看起来很爽，但坏处是：你不知道这个类型是从哪里来的，重构代码时很难追踪依赖关系。
+2.  **模块内聚性**：
+    `MapConfig` 本质上是 `useOlMap` 这个 hook 的参数配置。它俩是强耦合的。如果未来你删除了这个 hook，你肯定也希望顺便删除对应的类型定义。如果类型在十万八千里外的 `types` 文件夹里，你很容易忘记清理。
+
+---
+
+### 推荐的代码组织方案
+
+建议采用 **"就近原则" + "公共提取"** 的组合策略。
+
+#### 方案一：就近定义（适合简单项目/强相关类型）
+
+就像我上一次代码演示的那样，直接写在 `useOlMap.ts` 里并 `export` 出来。
+**优点**：文件少，查看代码时不用跳来跳去。
+**适用**：这个类型只被这个 Hook 和调用它的组件使用。
+
+#### 方案二：模块级类型文件（推荐方案，适合你的地图场景）
+
+由于地图相关的类型（配置、点位数据结构、图层枚举）可能会被 `BaseMap` 组件、`useOlMap` hook、`useFeature` hook 同时引用，建议在 `composables/map/` 目录下单独建一个 `types.ts`。
+
+**目录结构调整：**
+
+```text
+src/
+├── composables/
+│   └── map/
+│       ├── index.ts           # (可选) 统一导出
+│       ├── types.ts           # 【重点】地图相关的类型定义都在这，模块化导出
+│       ├── useOlMap.ts        # 核心逻辑
+│       └── useMapControls.ts  # 交互逻辑
+├── components/
+│   └── BaseMap/
+│       └── index.vue
+└── types/
+    └── business.d.ts          # 只有纯业务数据（如后端API返回的结构）才放这
+```
+
+### 代码重构演示
+
+#### 1. 定义类型 `src/composables/map/types.ts`
+
+这里只放纯类型定义，不放逻辑。
+
+```typescript
+import type { Coordinate } from 'ol/coordinate';
+
+// 地图基础配置接口
+export interface MapConfig {
+  center?: Coordinate; // [经度, 纬度]
+  zoom?: number;
+  projection?: string;
+  minZoom?: number;
+  maxZoom?: number;
+}
+
+// 业务点位接口（比如你需要在一个图层上显示设备）
+export interface DevicePoint {
+  id: string | number;
+  name: string;
+  location: Coordinate;
+  status: 'online' | 'offline' | 'alarm';
+  properties?: Record<string, any>; // 其他额外属性
+}
+
+// 图层类型枚举
+export enum LayerType {
+  Satellite = 'satellite',
+  Normal = 'normal',
+  Traffic = 'traffic'
+}
+```
+
+#### 2. 修改 Hook `src/composables/map/useOlMap.ts`
+
+从同级目录导入类型。
+
+```typescript
+import { ref, markRaw, onUnmounted, type Ref } from 'vue';
+import Map from 'ol/Map';
+// ... 引入 ol 其他依赖
+// 【重点】显式导入类型
+import type { MapConfig } from './types';
+
+export function useOlMap(domRef: Ref<HTMLElement | null>, config: MapConfig = {}) {
+  // ... 代码逻辑不变
+  // 这里可以使用 MapConfig 做类型提示
+}
+```
+
+#### 3. 修改业务拓展 Hook `src/composables/map/useMapControls.ts`
+
+```typescript
+import type { DevicePoint } from './types'; // 导入统一的点位定义
+// ...
+
+export function useMapControls() {
+  // 使用定义好的业务类型，而不是宽泛的 any
+  const addDeviceMarkers = (map: any, devices: DevicePoint[]) => {
+    devices.forEach(device => {
+      console.log(device.status); // TS 会提示 status 只有三种字符串
+      // ...生成 Feature 的逻辑
+    });
+  };
+  
+  return { addDeviceMarkers };
+}
+```
+
+#### 4. 在组件中使用 `index.vue`
+
+```html
+<script setup lang="ts">
+// 显式导入，来源清晰
+import type { MapConfig, DevicePoint } from '@/composables/map/types';
+import { useMapControls } from '@/composables/map/useMapControls';
+
+const mapOptions: MapConfig = {
+  zoom: 12,
+  center: [120, 30]
+};
+
+// 模拟后端数据，TS 会自动校验结构是否符合 DevicePoint
+const mockData: DevicePoint[] = [
+  { id: 1, name: '设备A', location: [120, 30], status: 'online' }
+];
+</script>
+```
+
+---
+
+### 什么时候使用 `src/types/xx.d.ts`？
+
+只有以下情况才建议放到根目录的 `types` 下：
+
+1.  **全局垫片 (Shims)**：
+    比如你需要扩展 `window` 对象，或者某个第三方库没有 TS 类型，你需要手写声明模块。
+    *例如 `src/types/shims-ol.d.ts`*
+
+2.  **全项目通用的业务实体**：
+    比如后端的通用响应结构 `ApiResponse<T>`，或者是用户对象 `UserInfo`，这种贯穿整个项目（登录、个人中心、列表页、地图页）的数据结构。
+
+### 总结
+
+*   **不要**为了把类型“藏起来”而放入 `types/map.d.ts`。
+*   **要**使用 ES Module 的 `export/import` 机制来管理类型。
+*   **推荐**在 `src/composables/map/types.ts` 中集中管理地图模块内部共享的类型。这既保持了模块的独立性，又方便复用。
